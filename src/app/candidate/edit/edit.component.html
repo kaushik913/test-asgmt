@@ -1,0 +1,463 @@
+<ng-container *ngIf="isLoading">
+  <ngx-content-loading [width]="800">
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+  </ngx-content-loading>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <div class="title-block page">
+    <div class="title">Add Candidate</div>
+  </div>
+
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12 col-md-offset-3">
+        <ng-container *ngIf="step == 1">
+          <form [formGroup]="personalDetails" id="msform" #f="ngForm" novalidate>
+            <!-- fieldsets -->
+
+
+            <div class="title-block with-action">
+              <div class="title mid">Personal Details</div>
+            </div>
+
+            <div class="form-group">
+              <input
+                formControlName="profilePic"
+                id="profilePic"
+                type="file"
+                class="form-control"
+                (change)="onFileChange($event)">
+
+              <small class="form-text text-danger" *ngIf="personalDetails.controls.profilePic.errors">
+                <div *ngIf="personal.profilePic.errors?.required">profile picture is required</div>
+              </small>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="name" formControlName="name"
+                     [ngClass]=" { 'is-invalid': personal_step && personal.name.errors } "
+                     placeholder="Full Name">
+
+              <div *ngIf="personal_step && personal.name.errors" class="invalid-feedback">
+                <div *ngIf="personal.name.errors">Enter valid full name</div>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+
+              <input type="email" class="form-control" id="email" formControlName="email"
+                     [ngClass]=" { 'is-invalid': personal_step && personal.email.errors } "
+                     placeholder="Email">
+
+              <div *ngIf="personal_step && personal.email.errors" class="invalid-feedback">
+                <div *ngIf="personal.email.errors.required">Email is required</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="phone" formControlName="phone"
+                     [ngClass]="{ 'is-invalid': personal_step && personal.phone.errors }"
+                     placeholder="Phone">
+              <div *ngIf="personal_step && personal.phone.errors" class="invalid-feedback">
+                <div *ngIf="personal.phone.errors">Please enter valid phone number</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+
+              <select class="custom-select" id="gender" formControlName="gender"
+                      [ngClass]=" { 'is-invalid': personal_step && personal.gender.errors } ">
+                <option value="null" disabled="true" [selected]="true">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <div *ngIf="personal_step && personal.gender.errors" class="invalid-feedback">
+                <div *ngIf="personal.gender.errors.required">Select your gender</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <ng-select id="Country" name="hobbies" formControlName="hobbies"
+                         [items]="hobbyList" [multiple]="true"
+                         [ngClass]="{ 'is-invalid': personal_step && personal.hobbies.errors }" placeholder="hobbies"
+                         required>
+              </ng-select>
+              <small class="form-text text-danger" *ngIf="personal_step && personalDetails.controls.hobbies.errors">
+                <div *ngIf="personal.hobbies.errors?.required">Hobby is required.</div>
+              </small>
+            </div>
+
+
+            <div class="step-action">
+              <button (click)="next()" class="btn btn-sm btn-secondary">Next</button>
+            </div>
+          </form>
+        </ng-container>
+
+
+        <ng-container *ngIf="step == 2">
+
+          <div class="title-block with-action">
+            <div class="title mid">Education Details</div>
+            <div class="action-block">
+              <button class="btn btn-sm btn-primary" (click)="onAddEducation(addEducationModal)">+ Add Education
+              </button>
+            </div>
+          </div>
+
+          <div class="skill-list" *ngIf="educationList.length > 0">
+            <table class="table">
+              <tr>
+                <th>Institute</th>
+                <th>Degree</th>
+                <th>Percentage</th>
+                <th>Pass out year</th>
+                <th>Action</th>
+
+              </tr>
+              <tr *ngFor="let item of educationList; let i = index">
+                <td>{{ item['institute'] }}</td>
+                <td>{{ item['degree'] }}</td>
+                <td>{{ item['percentage'] }}</td>
+                <td>{{ item['pass_out_year'] }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="deleteListItem('educationList', i)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="step-action">
+            <button (click)="previous()" class="btn btn-sm btn-secondary">Previous</button>
+            <button (click)="next()" class="btn btn-sm btn-secondary">Next</button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="step == 3">
+
+          <div class="title-block with-action">
+            <div class="title mid">Skill Details</div>
+            <div class="action-block">
+              <button class="btn btn-sm btn-primary" (click)="onAddSkill(addSkillModal)">+ Add Skill</button>
+            </div>
+          </div>
+
+          <div class="skill-list" *ngIf="skillsList.length > 0">
+            <table class="table">
+              <tr>
+                <th>Name</th>
+                <th>experience</th>
+                <th>Action</th>
+
+              </tr>
+              <tr *ngFor="let item of skillsList; let i = index">
+                <td>{{ item['name'] }}</td>
+                <td>{{ item['experience'] }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="deleteListItem('skillsList', i)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="step-action">
+            <button (click)="previous()" class="btn btn-sm btn-secondary">Previous</button>
+            <button (click)="next()" class="btn btn-sm btn-secondary">Next</button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="step == 4">
+          <div class="title-block with-action">
+            <div class="title mid">Experience Details</div>
+            <div class="action-block">
+              <button class="btn btn-sm btn-primary" (click)="onAddExperience(addExperienceModal)">+ Add Experience
+              </button>
+            </div>
+          </div>
+
+          <div class="skill-list" *ngIf="experienceList.length > 0">
+
+            <table class="table">
+              <tr>
+                <th>Name</th>
+                <th>Project</th>
+                <th>role</th>
+                <th>team_size</th>
+                <th>duration_from</th>
+                <th>Action</th>
+
+              </tr>
+              <tr *ngFor="let item of experienceList; let i = index">
+                <td>{{ item['company'] }}</td>
+                <td>{{ item['project'] }}</td>
+                <td>{{ item['role'] }}</td>
+                <td>{{ item['team_size'] }}</td>
+                <td>{{ item['duration_from'] }} - {{ item['duration_to']}}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="deleteListItem('experienceList', i)">
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            </table>
+          </div>
+
+          <div class="step-action">
+            <button (click)="previous()" class="btn btn-sm btn-secondary">Previous</button>
+            <button (click)="submit()" class="btn btn-sm btn-secondary">Submit</button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template #addSkillModal id="addAccount" let-modal>
+  <div class="modal-body">
+
+    <div class="content-block">
+
+      <form [formGroup]="skillDetails" autocomplete="off" #fa="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="sName" formControlName="name"
+                     [ngClass]="{ 'is-invalid': skill_step && skills.name.errors }"
+                     placeholder="Skill Name">
+
+              <div *ngIf="skill_step && skills.name.errors" class="invalid-feedback">
+                <div *ngIf="skills.name.errors.required">Institute is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="experience" formControlName="experience"
+                     [ngClass]="{ 'is-invalid': skill_step && skills.experience.errors }"
+                     placeholder="Experience (year)">
+              <div *ngIf="skill_step && skills.experience.errors" class="invalid-feedback">
+                <div *ngIf="skills.experience.errors">Enter valid experience (Should be in number max 99 )</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-primary" style="margin-right: 10px" (click)="modal.close('ADD')">Add</button>
+            <button class="btn btn-sm btn-danger" (click)="modal.close('CANCEL')">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #addEducationModal id="addEducation" let-modal>
+  <div class="modal-body">
+    <div class="content-block">
+      <form [formGroup]="educationalDetails" autocomplete="off" #fa="ngForm" novalidate>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="institute" formControlName="institute"
+                     [ngClass]="{ 'is-invalid': education_step && education.institute.errors }"
+                     placeholder="Name of School/Collage/Institute">
+
+              <div *ngIf="education_step && education.institute.errors" class="invalid-feedback">
+                <div *ngIf="education.institute.errors.required">Institute is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="degree" formControlName="degree"
+                     [ngClass]="{ 'is-invalid': education_step && education.degree.errors }"
+                     placeholder="Degree">
+              <div *ngIf="education_step && education.degree.errors" class="invalid-feedback">
+                <div *ngIf="education.degree.errors.required">Institute is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="percentage" formControlName="percentage"
+                     [ngClass]="{ 'is-invalid': education_step && education.percentage.errors }"
+                     placeholder="Percentage">
+              <div *ngIf="education_step && education.percentage.errors" class="invalid-feedback">
+                <div *ngIf="education.percentage.errors">Percentage is not valid</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="pass_out_year" formControlName="pass_out_year"
+                     [ngClass]="{ 'is-invalid': education_step && education.pass_out_year.errors }"
+                     placeholder="Pass out year (i.e 2015)">
+              <div *ngIf="education_step && education.pass_out_year.errors" class="invalid-feedback">
+                <div *ngIf="education.pass_out_year.errors.required">Institute is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-primary" style="margin-right: 10px" (click)="modal.close('ADD')">Add
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="modal.close('CANCEL')">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #addExperienceModal id="addExperience" let-modal>
+  <div class="modal-body">
+
+    <div class="content-block">
+
+      <form [formGroup]="experienceDetails" autocomplete="off" #fa="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="company" formControlName="company"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.company.errors }"
+                     placeholder="Company Name">
+
+              <div *ngIf="experience_step && experience.company.errors" class="invalid-feedback">
+                <div *ngIf="experience.company.errors.required">Company name is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="project" formControlName="project"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.project.errors }"
+                     placeholder="Project Name">
+              <div *ngIf="experience_step && experience.project.errors" class="invalid-feedback">
+                <div *ngIf="experience.project.errors.required">Mention your project.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text" class="form-control" id="role" formControlName="role"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.role.errors }"
+                     placeholder="Your Role">
+              <div *ngIf="experience_step && experience.role.errors" class="invalid-feedback">
+                <div *ngIf="experience.role.errors.required">Company name is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="number" class="form-control" id="team_size" formControlName="team_size"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.team_size.errors }"
+                     placeholder="Team Size">
+              <div *ngIf="experience_step && experience.team_size.errors" class="invalid-feedback">
+
+                <div *ngIf="!experience.team_size.errors?.valid">Enter number in team size(max 999)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="text"
+                     #dateFromDp="dpDayPicker"
+                     [dpDayPicker]="dayPickerConfig"
+                     [theme]="'dp-material'"
+                     class="form-control" id="duration_from"
+                     formControlName="duration_from"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.duration_from.errors }"
+                     placeholder="Duration From"
+                     [readonly]="true"
+                     [mode]="'month'"/>
+              <div *ngIf="experience_step && experience.duration_from.errors" class="invalid-feedback">
+                <div *ngIf="experience.duration_from.errors.required">Company name is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+
+
+              <input type="text"
+                     #dateFromDp="dpDayPicker"
+                     [dpDayPicker]="dayPickerConfig"
+                     [theme]="'dp-material'"
+                     class="form-control" id="duration_to"
+                     formControlName="duration_to"
+                     [ngClass]="{ 'is-invalid': experience_step && experience.duration_to.errors }"
+                     placeholder="Duration To"
+                     [readonly]="true"
+                     [mode]="'month'"/>
+              <div *ngIf="experience_step && experience.duration_to.errors" class="invalid-feedback">
+                <div *ngIf="experience.duration_to.errors.required">Company name is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row mb-3">
+          <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-primary" style="margin-right: 10px" (click)="modal.close('ADD')">Add</button>
+            <button class="btn btn-sm btn-danger" (click)="modal.close('CANCEL')">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</ng-template>

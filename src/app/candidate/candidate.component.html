@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Test App</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+
+    <ul class="navbar-nav">
+      <li ngbDropdown class="nav-item">
+        <a class="nav-link" ngbDropdownToggle href="javascript:void(0)" id="navbarDropdown" role="button"
+           data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Hi {{user['name']}}
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" ngbDropdownItem href="" (click)="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="main-container">
+  <div class="section candidate-list" fxLayout="row" fxLayoutAlign="center center">
+
+    <ng-container *ngIf="isLoading">
+      <ngx-content-loading [width]="800">
+        <svg:g ngx-list-preset></svg:g>
+        <svg:g ngx-list-preset></svg:g>
+        <svg:g ngx-list-preset></svg:g>
+        <svg:g ngx-list-preset></svg:g>
+      </ngx-content-loading>
+    </ng-container>
+
+    <ng-container *ngIf="!isLoading">
+      <div class="title-block with-action">
+        <div class="title">Candidates</div>
+        <div class="action-block">
+          <button class="btn btn-sm btn-primary" (click)="goToURL('/candidate/new')">Add +</button>
+        </div>
+      </div>
+
+      <div class="content" style="height: calc(100vh - 120px)">
+        <div class="card-list">
+          <div class="item" *ngFor="let item of candidates" (click)="goToURL('/candidate/'+ item['id'])">
+            <div class="card">
+              <div class="heading">{{item['name']}}</div>
+              <div class="short-info">
+                <div class="sub-heading"><i class="fa fa-envelope"></i> {{item['email']}}</div>
+                <div class="sub-heading"><i class="fa fa-phone"></i> {{item['phone']}}</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+
+  </div>
+
+  <div class="candidate-details">
+    <router-outlet></router-outlet>
+  </div>
+</div>

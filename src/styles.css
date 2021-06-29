@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+body {
+  background-color: #F5F5F5;
+}
+
+.title-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.title-block.page {
+  border-bottom: 1px solid #b3b3b3;
+}
+
+.title-block .title {
+  flex: 100%;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.title-block .title.mid {
+  font-size: 16px;
+  text-decoration: underline;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.title-block.with-action .action-block {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.content {
+}
+
+.table th, .table td {
+  padding: 5px;
+  vertical-align: top;
+  border-top: none !important;
+  border-bottom: 1px solid #DAE9E4;
+  border-top: 1px solid #DAE9E4 !important;
+  font-weight: normal;
+}
+
+.table th:first-child, .table td:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-left: 1px solid #DAE9E4 !important;;
+}
+
+.table th:last-child, .table td:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-right: 1px solid #DAE9E4 !important;;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 5px;
+}
+
+.table th {
+  color: #000000;
+  font-weight: 600;
+}
+
+.table td a {
+  color: #3D5AFE;
+  cursor: pointer;
+}
+
+.table td a:hover {
+  text-decoration: underline;
+}
+
+

@@ -1,0 +1,133 @@
+<ng-container *ngIf="isLoading">
+  <ngx-content-loading [width]="800">
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+    <svg:g ngx-list-preset></svg:g>
+  </ngx-content-loading>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+
+  <ng-container *ngIf="!selected">
+    Select candidate to view details
+  </ng-container>
+
+  <ng-container *ngIf="candidate == undefined">
+    No data to show
+  </ng-container>
+
+  <ng-container *ngIf="candidate != undefined">
+    <div class="title-block with-action">
+      <div class="title">Candidate Details</div>
+      <div class="action-block">
+        <button class="btn btn-sm btn-outline-warning" (click)="goToURL('/candidate/edit/'+candidate['id'])"
+                style="margin-right: 10px">Edit
+        </button>
+        <button class="btn btn-sm btn-outline-danger" (click)="openConfirmDelete(confirmDelete)">Delete</button>
+      </div>
+    </div>
+
+    <div class="content" style="height: calc(100vh - 120px); overflow-x: hidden; overflow-y: auto">
+      <div class="title-block">
+        <div class="title mid">Personal Details</div>
+      </div>
+      <div class="section">
+        <div class="row">
+          <div class="col-md-3"><b>Name</b></div>
+          <div class="col-md-8">{{candidate['name']}}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3"><b>Email</b></div>
+          <div class="col-md-8">{{candidate['email']}}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3"><b>Gender</b></div>
+          <div class="col-md-8">{{candidate['gender']}}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3"><b>Hobbies</b></div>
+          <div class="col-md-8">{{candidate['hobbies']}}</div>
+        </div>
+      </div>
+
+      <div class="title-block">
+        <div class="title mid">Education</div>
+      </div>
+      <div class="section">
+        <table class="table">
+          <tr>
+            <th>institute</th>
+            <th>degree</th>
+            <th>percentage</th>
+            <th>pass_out_year</th>
+          </tr>
+          <tr *ngFor="let item of candidate['education']">
+            <td>{{ item['institute'] }}</td>
+            <td>{{ item['degree'] }}</td>
+            <td>{{ item['percentage'] }}</td>
+            <td>{{ item['pass_out_year'] }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="title-block">
+        <div class="title mid">Skills</div>
+      </div>
+      <div class="section">
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>experience</th>
+
+          </tr>
+          <tr *ngFor="let item of candidate['skills']">
+            <td>{{ item['name'] }}</td>
+            <td>{{ item['experience'] }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="title-block">
+        <div class="title mid">Experience</div>
+      </div>
+      <div class="section">
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Project</th>
+            <th>role</th>
+            <th>team_size</th>
+            <th>duration_from</th>
+
+          </tr>
+          <tr *ngFor="let item of candidate['experience']">
+            <td>{{ item['company'] }}</td>
+            <td>{{ item['project'] }}</td>
+            <td>{{ item['role'] }}</td>
+            <td>{{ item['team_size'] }}</td>
+            <td>{{ item['duration_from'] }} - {{ item['duration_to']}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+
+<ng-template #confirmDelete id="addEducation" let-modal>
+  <div class="modal-body">
+    <div class="content-block">
+      <h3>Are sure to delete candidate ?</h3>
+
+      <div class="col-md-12 text-right">
+        <button class="btn btn-sm btn-danger " style="margin-right: 10px" (click)="modal.close('YES')">Delete
+        </button>
+        <button class="btn btn-sm btn-secondary" (click)="modal.close('CANCEL')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

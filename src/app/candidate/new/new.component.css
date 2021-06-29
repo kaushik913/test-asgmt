@@ -1,0 +1,11 @@
+.skill-list {
+  margin: 10px 0px;
+}
+
+.step-action button {
+  margin-right: 10px;
+}
+
+::ng-deep dp-date-picker {
+  display: unset !important;
+}

@@ -1,0 +1,54 @@
+.navbar {
+  height: 38px;
+}
+
+.main-container {
+  margin: 10px 15px;
+  display: flex;
+  height: calc(100vh - 58px);
+}
+
+.candidate-details,
+.candidate-list {
+  margin-right: 10px;
+  border: 1px solid #b3b3b3;
+  border-radius: 5px;
+  padding: 10px;
+  background: #F5F5F5;
+}
+
+.candidate-details,
+.candidate-list {
+  flex: 50;
+}
+
+.card {
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.card:hover {
+  background-color: #C8C8C855;
+}
+
+.card .heading {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.short-info {
+  display: flex;
+  align-items: center;
+}
+
+.short-info > div {
+  flex: 50%;
+}
+
+.card .sub-heading {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
