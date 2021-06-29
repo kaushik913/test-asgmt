@@ -32,27 +32,37 @@
       <div class="title-block">
         <div class="title mid">Personal Details</div>
       </div>
-      <div class="section">
-        <div class="row">
-          <div class="col-md-3"><b>Name</b></div>
-          <div class="col-md-8">{{candidate['name']}}</div>
+      <div class="row">
+        <div class="col-md-2">
+          <img [src]="candidate['profile_picture']" *ngIf="candidate['profile_picture'] != ''"
+               style="height: 80px; width:80px;margin-right: 10px; border-radius: 50%">
         </div>
+        <div class="col-md-10">
+          <div class="section">
+            <div class="row">
+              <div class="col-md-3"><b>Name</b></div>
+              <div class="col-md-8">{{candidate['name']}}</div>
+            </div>
 
-        <div class="row">
-          <div class="col-md-3"><b>Email</b></div>
-          <div class="col-md-8">{{candidate['email']}}</div>
-        </div>
+            <div class="row">
+              <div class="col-md-3"><b>Email</b></div>
+              <div class="col-md-8">{{candidate['email']}}</div>
+            </div>
 
-        <div class="row">
-          <div class="col-md-3"><b>Gender</b></div>
-          <div class="col-md-8">{{candidate['gender']}}</div>
-        </div>
+            <div class="row">
+              <div class="col-md-3"><b>Gender</b></div>
+              <div class="col-md-8">{{candidate['gender']}}</div>
+            </div>
 
-        <div class="row">
-          <div class="col-md-3"><b>Hobbies</b></div>
-          <div class="col-md-8">{{candidate['hobbies']}}</div>
+            <div class="row">
+              <div class="col-md-3"><b>Hobbies</b></div>
+              <div class="col-md-8">{{candidate['hobbies']}}</div>
+            </div>
+          </div>
+
         </div>
       </div>
+
 
       <div class="title-block">
         <div class="title mid">Education</div>

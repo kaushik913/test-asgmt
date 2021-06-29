@@ -15,16 +15,27 @@
           </div>
 
           <div class="form-group">
-            <input
-              formControlName="profilePic"
-              id="profilePic"
-              type="file"
-              class="form-control"
-              (change)="onFileChange($event)">
 
-            <small class="form-text text-danger" *ngIf="personalDetails.controls.profilePic.errors">
-              <div *ngIf="personal.profilePic.errors?.required">profile picture is required</div>
-            </small>
+            <div style="display: flex;align-items: center">
+              <img [src]="imageSrc" *ngIf="imageSrc"
+                   style="height: 80px; width:80px;margin-right: 10px; border-radius: 50%">
+
+              <div class="file btn btn-lg btn-primary">
+                Upload Profile
+                <input
+                  formControlName="profilePic"
+                  id="profilePic"
+                  type="file"
+                  style="width: 100%"
+                  value="Upload Profile"
+                  (change)="onFileChange($event)">
+              </div>
+            </div>
+
+
+            <!--            <small class="form-text text-danger" *ngIf="personalDetails.controls.profilePic.errors">-->
+            <!--              <div *ngIf="personal.profilePic.errors?.required">profile picture is required</div>-->
+            <!--            </small>-->
           </div>
 
           <div class="form-group">

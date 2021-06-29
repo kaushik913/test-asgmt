@@ -35,6 +35,7 @@ export class NewComponent implements OnInit {
   educationList: any = [];
   experienceList: any = [];
 
+
   constructor(private formBuilder: FormBuilder,
               private _commonService: CommonService,
               private modalService: NgbModal) {
@@ -172,12 +173,16 @@ export class NewComponent implements OnInit {
     });
   }
 
+  imageSrc:string;
   onFileChange(event: any): void {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
       reader.onload = () => {
+
+        this.imageSrc = reader.result as string;
+
         this.personalDetails.patchValue({
           profilePic: reader.result
         });

@@ -81,7 +81,8 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.getCandidateDetails();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+  }
 
   getCandidateDetails() {
     let id = this._route.snapshot.paramMap.get('id');
@@ -98,9 +99,11 @@ export class EditComponent implements OnInit, AfterViewInit {
       this.personalDetails.controls.phone.setValue(response['phone']);
 
       this.personalDetails.get('hobbies').setValue(response['hobbies']);
+      this.imageSrc = response['profile_picture']
       this.educationList = response['education'];
       this.skillsList = response['skills'];
       this.experienceList = response['experience'];
+
 
       this.isLoading = false;
     }, error => {
@@ -206,12 +209,15 @@ export class EditComponent implements OnInit, AfterViewInit {
     });
   }
 
+  imageSrc: string;
+
   onFileChange(event: any): void {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
       reader.onload = () => {
+        this.imageSrc = reader.result as string;
         this.personalDetails.patchValue({
           profilePic: reader.result
         });
